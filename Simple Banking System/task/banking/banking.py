@@ -82,6 +82,7 @@ def check_balance():
 
 
 def print_accounts_info():
+    """ prints all card numbers and pins in [accounts] for debug purposes """
     for account in accounts:
         print(account.card_number, account.pin)
 
@@ -97,14 +98,14 @@ while True:
     if input_ == '1':
         create_account()
     elif input_ == '2':
-        cn = input("Enter your card number: > ")
-        p = input("Enter your PIN: > ")
-        access_account(cn, p)
+        card_number = input("Enter your card number: > ")
+        pin = input("Enter your PIN: > ")
+        access_account(card_number, pin)
     elif input_ == '3':
         print_accounts_info()
     elif input_ == '0':
         print("Bye!")
-        exit()
+        exit()  # built in function in python, very nice isnt it?
     while current_account:  # if successfully logged in (current_account != None)
         print("""
         1. Balance
