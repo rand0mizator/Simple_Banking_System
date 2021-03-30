@@ -1,11 +1,10 @@
 import random
 from string import digits
 
-ISSUER_IDENTIFICATION_NUMBER = '400000'
+ISSUER_IDENTIFICATION_NUMBER = '400000'  # constant for this stage of project
 
-accounts = []  # all account in object type
+accounts = []  # all accounts in object type
 current_account = None  # when logged its related to object from accounts
-exit_flag = False
 
 
 class Account:
@@ -16,7 +15,7 @@ class Account:
 
 
 def generate_check_digit(ISSUER_IDENTIFICATION_NUMBER, customer_account_number):
-    """Luhn algo Implementation"""
+    """ Luhn algo Implementation for 16th digit """
     sum1 = 0
     number = ISSUER_IDENTIFICATION_NUMBER + customer_account_number
     for digit in enumerate(number, 1):
@@ -35,14 +34,15 @@ def generate_check_digit(ISSUER_IDENTIFICATION_NUMBER, customer_account_number):
 
 
 def generate_card_number():
-    """"Generates card number as IIN + customer account number + check digit (through Luhn algo)"""
+    """"Generates card number as IIN + customer account number + check digit (through Luhn algo), checks uniqueness"""
     global accounts
     customer_account_number = ''.join(random.choice(digits) for x in range(9))
     check_digit = generate_check_digit(ISSUER_IDENTIFICATION_NUMBER, customer_account_number)
     card_number = ISSUER_IDENTIFICATION_NUMBER + customer_account_number + check_digit
     for account in accounts:
-        if card_number == account.card_number:
-            card_number = generate_card_number()
+        # TODO dunno will it work properly in production
+        if card_number == account.card_number:  # if generated card number already in accounts
+            card_number = generate_card_number()  # generate it again o_O
     return card_number
 
 
@@ -65,9 +65,9 @@ def access_account(card_number, pin):
         if account.card_number == card_number and account.pin == pin:
             current_account = account
             return print("You have successfully logged in!")
-            
     else:
         print("Wrong card number or PIN!")
+
 
 def logout():
     """changes global variable 'current_account' """
@@ -84,48 +84,38 @@ def check_balance():
 def print_accounts_info():
     for account in accounts:
         print(account.card_number, account.pin)
-    
 
 
 while True:
-    if exit_flag:
-        print("Bye!")
-        break
-        
     print("""
         1. Create an account
         2. Log into account
         0. Exit
           """)
-    input_ = input()
+    input_ = input(">")
     
     if input_ == '1':
         create_account()
-
     elif input_ == '2':
-        cn = input("card number")
-        p = input("pin")
+        cn = input("Enter your card number: > ")
+        p = input("Enter your PIN: > ")
         access_account(cn, p)
-               
     elif input_ == '3':
         print_accounts_info()
-
     elif input_ == '0':
-        exit_flag = True
-
-    while current_account:  # if successfully logged in (current_account != None) 
+        print("Bye!")
+        exit()
+    while current_account:  # if successfully logged in (current_account != None)
         print("""
         1. Balance
         2. Log out
         0. Exit
           """)
-        input_ = input()
+        input_ = input(">")
         if input_ == '1':
             check_balance()
         elif input_ == '2':
             logout()
         elif input_ == '0':
-            exit_flag = True
-            break
-            
-            
+            print("Bye!")
+            exit()
