@@ -1,6 +1,26 @@
+"""Structure
+class Account:
+
+@staticmethod
+def create_table()
+
+@staticmethod
+def add_account_to_db(card_nr, pin)
+
+def generate_card_number(self)
+
+def create_account(self):
+
+@staticmethod
+def verify_credentials(card_number, card_pin)
+
+def log_into_account(self, card_number, card_pin):
+"""
+
+
 import random
 import sqlite3
-from string import digits
+
 
 ISSUER_IDENTIFICATION_NUMBER = '400000'  # constant for this stage of project
 
