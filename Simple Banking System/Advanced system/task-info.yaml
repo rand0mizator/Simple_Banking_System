@@ -454,6 +454,58 @@ files:
     if __name__ == '__main__':
         BankingSystem('banking.banking').run_tests()
   learner_created: false
+- name: banking/bankrr.py
+  visible: true
+  text: "import random\nimport sqlite3\n\n\nclass CreditCard:\n    IIN = \"400000\"\
+    \n\n    def __init__(self):\n        self.checksum = 0\n        self.card_number\
+    \ = None\n        self.card_pin = None\n        self.balance = 0\n\n    @staticmethod\n\
+    \    def create_table():\n        conn = sqlite3.connect(\"card.s3db\")\n    \
+    \    cur = conn.cursor()\n        cur.execute(\"\"\"CREATE TABLE IF NOT EXISTS\
+    \ card(\n                    id INTEGER PRIMARY KEY, \n                    'number'\
+    \ TEXT,\n                    pin TEXT,\n                    balance INTEGER DEFAULT(0))\"\
+    \"\")\n        conn.commit()\n        conn.close()\n\n    @staticmethod\n    def\
+    \ add_account_to_db(card_nr, pin):\n        conn = sqlite3.connect(\"card.s3db\"\
+    )\n        cur = conn.cursor()\n        cur.execute(\"\"\"INSERT INTO card \n\
+    \                            ('number', 'pin') VALUES (?, ?)\n               \
+    \             \"\"\", (card_nr, pin))\n        conn.commit()\n        conn.close()\n\
+    \n    def generate_card_number(self):\n        self.card_number = list(CreditCard.IIN)\
+    \ + [str(random.randint(0, 9)) for _ in range(9)]\n        int_card_number = list(map(int,\
+    \ self.card_number))\n        for digit in range(len(int_card_number)):\n    \
+    \        if digit % 2 == 0:\n                int_card_number[digit] *= 2\n   \
+    \             if int_card_number[digit] > 9:\n                    int_card_number[digit]\
+    \ -= 9\n        total_digits = sum(int_card_number)\n        while total_digits\
+    \ % 10 != 0:\n            total_digits += 1\n            self.checksum += 1\n\
+    \        self.card_number.append(str(self.checksum))\n        self.card_number\
+    \ = \"\".join(self.card_number)\n\n    def create_account(self):\n        self.generate_card_number()\n\
+    \        self.card_number = f\"{self.card_number}\"\n        self.card_pin = \"\
+    \".join([str(random.randint(0, 9)) for _ in range(4)])\n        print(\"Your card\
+    \ has been created\")\n        print(f\"Your card number:\")\n        print(self.card_number)\n\
+    \        print(f\"Your card PIN:\")\n        print(f\"{self.card_pin}\")\n   \
+    \     self.add_account_to_db(self.card_number, self.card_pin)\n\n    @staticmethod\n\
+    \    def verify_credentials(card_number, card_pin):\n        conn = sqlite3.connect(\"\
+    card.s3db\")\n        cur = conn.cursor()\n        cur.execute(\"SELECT number,\
+    \ pin FROM card\")\n        accounts = cur.fetchall()\n        conn.commit()\n\
+    \        for acc_info in accounts:\n            if card_number in acc_info and\
+    \ card_pin in acc_info:\n                conn.close()\n                return\
+    \ True\n        conn.close()\n        return False\n\n    def log_into_account(self,\
+    \ card_number, card_pin):\n        if self.verify_credentials(card_number, card_pin):\n\
+    \            print(\"\\nYou have successfully logged in!\")\n            while\
+    \ True:\n                print(\"\\n1. Balance\\n2. Log out\\n0. Exit\")\n   \
+    \             logged_option = input(\">\")\n                if logged_option ==\
+    \ \"1\":\n                    print(f\"\\nBalance: {self.balance}\")\n       \
+    \         elif logged_option == \"2\":\n                    print(\"\\nYou have\
+    \ successfully logged out!\")\n                    break\n                elif\
+    \ logged_option == \"0\":\n                    print(\"\\nBye!\")\n          \
+    \          exit()\n                else:\n                    print(\"\\nInvalid\
+    \ option\")\n        else:\n            print(\"\\nwrong\")\n\n\nwhile True:\n\
+    \    CreditCard.create_table()\n    card = CreditCard()\n    print(\"\\n1. Create\
+    \ an account\\n2. Log into account\\n0. Exit\")\n    option = input(\">\")\n \
+    \   if option == \"1\":\n        card.create_account()\n    elif option == \"\
+    2\":\n        card_number_input = input(\"\\nEnter your card number:\\n\")\n \
+    \       card_pin_input = input(\"Enter your PIN:\\n\")\n        card.log_into_account(card_number_input,\
+    \ card_pin_input)\n    elif option == \"0\":\n        print(\"\\nBye!\")\n   \
+    \     exit()\n    else:\n        print(\"\\nIncorrect option\")"
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/109/stages/594/implement#comment
 status: Unchecked
 record: -1
