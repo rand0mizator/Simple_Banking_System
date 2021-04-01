@@ -1,10 +1,13 @@
 import random
+import sqlite3
 from string import digits
 
 ISSUER_IDENTIFICATION_NUMBER = '400000'  # constant for this stage of project
 
 accounts = []  # all accounts in object type
 current_account = None  # when logged its related to object from accounts
+conn = sqlite3.connect('card.s3db')
+cur = conn.cursor()
 
 
 class Account:
@@ -12,6 +15,13 @@ class Account:
         self.card_number = generate_card_number()
         self.pin = ''.join(random.choice(digits) for x in range(4))  # construct pin in form of DDDD
         self.balance = 0
+
+
+def quit():
+    print("Bye!")
+    conn.commit()
+    conn.close()
+    exit()  # built in function in python, very nice isnt it?
 
 
 def generate_check_digit(ISSUER_IDENTIFICATION_NUMBER, customer_account_number):
@@ -87,6 +97,18 @@ def print_accounts_info():
         print(account.card_number, account.pin)
 
 
+def store_to_db(accounts):
+    for account in accounts:
+        cur.execute('INSERT INTO card (number, pin, balance) VALUES (?, ?, ?)',
+                    (account.card_number, account.pin, account.balance))
+
+
+if cur.fetchone():
+    cur.execute('''CREATE TABLE card (id INTEGER,
+                                 number TEXT,
+                                 pin TEXT,
+                                 balance INTEGER DEFAULT 0
+                                 )''')
 while True:
     print("""
         1. Create an account
@@ -104,8 +126,7 @@ while True:
     elif input_ == '3':
         print_accounts_info()
     elif input_ == '0':
-        print("Bye!")
-        exit()  # built in function in python, very nice isnt it?
+        quit()
     while current_account:  # if successfully logged in (current_account != None)
         print("""
         1. Balance
@@ -118,5 +139,6 @@ while True:
         elif input_ == '2':
             logout()
         elif input_ == '0':
-            print("Bye!")
-            exit()
+            quit()
+    store_to_db(accounts)
+    conn.commit()
