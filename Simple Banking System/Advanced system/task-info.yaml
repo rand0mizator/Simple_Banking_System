@@ -506,6 +506,9 @@ files:
     \ card_pin_input)\n    elif option == \"0\":\n        print(\"\\nBye!\")\n   \
     \     exit()\n    else:\n        print(\"\\nIncorrect option\")"
   learner_created: true
+- name: banking/card.s3db
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/109/stages/594/implement#comment
 status: Unchecked
 record: -1
