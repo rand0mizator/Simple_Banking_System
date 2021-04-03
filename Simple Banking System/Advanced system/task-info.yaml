@@ -1,45 +1,5 @@
 type: edu
 files:
-- name: banking/banking.py
-  visible: true
-  text: "import random\nfrom string import digits\n\naccounts = []  # all account\
-    \ in object type\ncurrent_account = None  # when logged its related to object\
-    \ from accounts\nexit_flag = False   \n\n\nclass Account:\n    def __init__(self):\n\
-    \        self.card_number = '400000' + ''.join(random.choice(digits) for x in\
-    \ range(10))  # construct card number in form of\n                           \
-    \                                                              # 400000DDDDDDDDDD\n\
-    \        self.pin = ''.join(random.choice(digits) for x in range(4))  # construct\
-    \ pin in form of DDDD\n        self.balance = 0\n\n\ndef create_account():\n \
-    \   \"\"\"creates objects of Account class, adds to 'Database' and prints card\
-    \ number and pin\"\"\"\n    global accounts  # to allow changing global variable\
-    \ inside function\n    account = Account()  # create object of Account class\n\
-    \    accounts.append(account)  # add object of Account class to \"Database\"\n\
-    \    print(\"Your card has been created\")\n    print(\"Your card number:\")\n\
-    \    print(account.card_number)\n    print(\"Your card PIN:\")\n    print(account.pin)\n\
-    \n\ndef access_account(card_number, pin):\n    \"\"\"grants access to account\
-    \ via card number and pin, changes global variable 'current_account' \"\"\"\n\
-    \    global current_account\n    for account in accounts:\n        if account.card_number\
-    \ == card_number and account.pin == pin:\n            current_account = account\n\
-    \            return print(\"You have successfully logged in!\")\n            \n\
-    \    else:\n        print(\"Wrong card number or PIN!\")\n\ndef logout():\n  \
-    \  \"\"\"changes global variable 'current_account' \"\"\"\n    global current_account\n\
-    \    current_account = None\n    print(\"You have successfully logged out!\")\n\
-    \n\ndef check_balance():\n    \"\"\"if successfully logged into account (aka current_account\
-    \ != None) prints out its balance\"\"\"\n    print(f\"Balance: {current_account.balance}\"\
-    )\n    \n\n\nwhile True:\n    if exit_flag:\n        print(\"Bye!\")\n       \
-    \ break\n        \n    print(\"\"\"\n        1. Create an account\n        2.\
-    \ Log into account\n        0. Exit\n          \"\"\")\n    input_ = input()\n\
-    \    \n    if input_ == '1':\n        create_account()\n\n    elif input_ == '2':\n\
-    \        cn = input(\"card number\")\n        p = input(\"pin\")\n        access_account(cn,\
-    \ p)\n               \n    elif input_ == '3':\n        print_accounts_info()\n\
-    \n    elif input_ == '0':\n        exit_flag = True\n\n    while current_account:\
-    \  # if successfully logged in (current_account != None) \n        print(\"\"\"\
-    \n        1. Balance\n        2. Log out\n        0. Exit\n          \"\"\")\n\
-    \        input_ = input()\n        if input_ == '1':\n            check_balance()\n\
-    \        elif input_ == '2':\n            logout()\n        elif input_ == '0':\n\
-    \            exit_flag = True\n            break\n            \n            \n\
-    \        "
-  learner_created: false
 - name: tests.py
   visible: false
   text: |
@@ -506,9 +466,67 @@ files:
     \ card_pin_input)\n    elif option == \"0\":\n        print(\"\\nBye!\")\n   \
     \     exit()\n    else:\n        print(\"\\nIncorrect option\")"
   learner_created: true
+- name: banking/banking.py
+  visible: true
+  text: "import random\nfrom string import digits\n\naccounts = []  # all account\
+    \ in object type\ncurrent_account = None  # when logged its related to object\
+    \ from accounts\nexit_flag = False   \n\n\nclass Account:\n    def __init__(self):\n\
+    \        self.card_number = '400000' + ''.join(random.choice(digits) for x in\
+    \ range(10))  # construct card number in form of\n                           \
+    \                                                              # 400000DDDDDDDDDD\n\
+    \        self.pin = ''.join(random.choice(digits) for x in range(4))  # construct\
+    \ pin in form of DDDD\n        self.balance = 0\n\n\ndef create_account():\n \
+    \   \"\"\"creates objects of Account class, adds to 'Database' and prints card\
+    \ number and pin\"\"\"\n    global accounts  # to allow changing global variable\
+    \ inside function\n    account = Account()  # create object of Account class\n\
+    \    accounts.append(account)  # add object of Account class to \"Database\"\n\
+    \    print(\"Your card has been created\")\n    print(\"Your card number:\")\n\
+    \    print(account.card_number)\n    print(\"Your card PIN:\")\n    print(account.pin)\n\
+    \n\ndef access_account(card_number, pin):\n    \"\"\"grants access to account\
+    \ via card number and pin, changes global variable 'current_account' \"\"\"\n\
+    \    global current_account\n    for account in accounts:\n        if account.card_number\
+    \ == card_number and account.pin == pin:\n            current_account = account\n\
+    \            return print(\"You have successfully logged in!\")\n            \n\
+    \    else:\n        print(\"Wrong card number or PIN!\")\n\ndef logout():\n  \
+    \  \"\"\"changes global variable 'current_account' \"\"\"\n    global current_account\n\
+    \    current_account = None\n    print(\"You have successfully logged out!\")\n\
+    \n\ndef check_balance():\n    \"\"\"if successfully logged into account (aka current_account\
+    \ != None) prints out its balance\"\"\"\n    print(f\"Balance: {current_account.balance}\"\
+    )\n    \n\n\nwhile True:\n    if exit_flag:\n        print(\"Bye!\")\n       \
+    \ break\n        \n    print(\"\"\"\n        1. Create an account\n        2.\
+    \ Log into account\n        0. Exit\n          \"\"\")\n    input_ = input()\n\
+    \    \n    if input_ == '1':\n        create_account()\n\n    elif input_ == '2':\n\
+    \        cn = input(\"card number\")\n        p = input(\"pin\")\n        access_account(cn,\
+    \ p)\n               \n    elif input_ == '3':\n        print_accounts_info()\n\
+    \n    elif input_ == '0':\n        exit_flag = True\n\n    while current_account:\
+    \  # if successfully logged in (current_account != None) \n        print(\"\"\"\
+    \n        1. Balance\n        2. Log out\n        0. Exit\n          \"\"\")\n\
+    \        input_ = input()\n        if input_ == '1':\n            check_balance()\n\
+    \        elif input_ == '2':\n            logout()\n        elif input_ == '0':\n\
+    \            exit_flag = True\n            break\n            \n            \n\
+    \        "
+  learner_created: false
+- name: card.s3db
+  visible: true
+  learner_created: true
 - name: banking/card.s3db
   visible: true
   learner_created: true
+- name: banking/test.py
+  visible: true
+  learner_created: true
+- name: banking/test_luhn.py
+  visible: true
+  learner_created: true
+- name: temp.s3db
+  visible: true
+  learner_created: true
+- name: card.s3db-journal
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/109/stages/594/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Sat, 03 Apr 2021 14:34:14 UTC
 record: -1
